@@ -8,32 +8,15 @@ public class Movement : MonoBehaviour
     [SerializeField] Transform direction;
     [SerializeField] float speed;
     Rigidbody2D rb;
-    Bounds spriteRenderer;
     Vector2 inputDirections;
-    Vector3 lastPosition;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>().bounds;
-        lastPosition = direction.position;
     }
     private void Update()
     {
-        Vector3 face = direction.position - lastPosition;
-        if (face.magnitude > 0.01f)
-        {
-
-
-            float angle = Mathf.Atan2(face.y, face.x) * Mathf.Rad2Deg;
-
-            Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
-
-            direction.rotation = targetRotation;
-
-
-            lastPosition = direction.position;
-        }
+        
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -43,8 +26,16 @@ public class Movement : MonoBehaviour
     }
     public void Move(InputAction.CallbackContext value)
     {
-        inputDirections = value.ReadValue<Vector2>();
+            inputDirections = value.ReadValue<Vector2>();
 
+
+            if (inputDirections.x == 0 && inputDirections.y == 0)
+                return;
+
+            float angle = Mathf.Atan2(inputDirections.y, inputDirections.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
+
+            direction.rotation = targetRotation;
 
     }
 }
