@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyStatus : MonoBehaviour, IDamageable, IExplosible
 {
-    [SerializeField] float life;
+    [SerializeField] EnemyData enemyData;
     public void Explode()
     {
         gameObject.SetActive(false);
@@ -12,8 +12,8 @@ public class EnemyStatus : MonoBehaviour, IDamageable, IExplosible
 
     public void TakeDamage(int damage)
     {
-        life -= damage;
-        if(life <= 0)
+        enemyData.Life -= damage;
+        if(enemyData.Life <= 0)
         {
             gameObject.SetActive(false);
         }
